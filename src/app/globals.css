@@ -25,3 +25,7 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.h-hidden-nav {
+  height: calc(100vh - 4rem);
+}

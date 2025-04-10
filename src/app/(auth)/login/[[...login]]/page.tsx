@@ -13,6 +13,11 @@ export default function Login() {
     setIsSignIn(state);
     router.push(state ? "/sign-in" : "/sign-up");
   };
+  const handleLoginSuccess = (isSuccess: boolean) => {
+    if (isSuccess) {
+      router.push("/");
+    }
+  };
 
   useEffect(() => {
     if (window.location.pathname === "/sign-up") {
@@ -29,7 +34,10 @@ export default function Login() {
       </h2>
 
       <div className="flex items-center justify-center mt-5">
-        <SignInForm isSignIn={handleLoginState} />
+        <SignInForm
+          isSignIn={handleLoginState}
+          isLoginSuccess={handleLoginSuccess}
+        />
       </div>
     </div>
   );

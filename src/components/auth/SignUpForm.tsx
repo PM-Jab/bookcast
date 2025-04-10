@@ -1,8 +1,33 @@
+"use client";
+import { useState } from "react";
+import { register } from "../../../api/user";
+
 interface LoginCardProps {
   isSignIn: (state: boolean) => void;
+  isLoginSuccess: (isSuccess: boolean) => void;
 }
 
-const SignUpForm = ({ isSignIn }: LoginCardProps) => {
+const SignUpForm = ({ isSignIn, isLoginSuccess }: LoginCardProps) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleDisable = () => {
+    if (username.length === 0 || password.length === 0) {
+      return true;
+    }
+    return false;
+  };
+  const handleRegister = async () => {
+    // Handle login logic here
+    console.log("Registered clicked");
+    const res = await register(username, password);
+    console.log(res);
+    if (res.username != undefined) {
+      // Handle successful login
+      console.log("Registered successfully");
+      // Redirect to home page or do something else
+      isLoginSuccess(true);
+    }
+  };
   return (
     <div className="w-96 flex flex-col justify-center px-6 lg:px-8 bg-transparent border-1 backdrop-blur-sm rounded-lg shadow-md">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -12,7 +37,15 @@ const SignUpForm = ({ isSignIn }: LoginCardProps) => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm ">
-        <form className="space-y-8" action="#" method="POST">
+        <form
+          className="space-y-8"
+          action="#"
+          method="POST"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await handleRegister();
+          }}
+        >
           <div>
             <label htmlFor="email" className="block text-sm/6 font-medium">
               Email
@@ -25,6 +58,7 @@ const SignUpForm = ({ isSignIn }: LoginCardProps) => {
                 id="email"
                 autoComplete="email"
                 required
+                onChange={(e) => setUsername(e.target.value)}
                 className="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
@@ -44,6 +78,7 @@ const SignUpForm = ({ isSignIn }: LoginCardProps) => {
                 id="password"
                 autoComplete="current-password"
                 required
+                onChange={(e) => setPassword(e.target.value)}
                 className="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
@@ -51,8 +86,11 @@ const SignUpForm = ({ isSignIn }: LoginCardProps) => {
 
           <div>
             <button
+              disabled={handleDisable()}
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className={`${
+                handleDisable() ? "bg-indigo-500" : "bg-indigo-600"
+              } flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
             >
               Sign up
             </button>

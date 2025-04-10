@@ -12,6 +12,11 @@ export default function Login() {
     setIsSignIn(state);
     router.push(state ? "/login" : "/sign-up");
   };
+  const handleLoginSuccess = (isSuccess: boolean) => {
+    if (isSuccess) {
+      router.push("/login");
+    }
+  };
 
   return (
     <div>
@@ -20,7 +25,10 @@ export default function Login() {
       </h2>
 
       <div className="flex items-center justify-center mt-5">
-        <SignUpForm isSignIn={handleLoginState} />
+        <SignUpForm
+          isSignIn={handleLoginState}
+          isLoginSuccess={handleLoginSuccess}
+        />
       </div>
     </div>
   );

@@ -1,8 +1,35 @@
+"use client";
+import { useState } from "react";
+import { login } from "../../../api/user";
+import { useUser } from "../../../context/userContext";
+import { getCookie } from "../../../api/user";
 interface LoginCardProps {
   isSignIn: (state: boolean) => void;
+  isLoginSuccess: (isSuccess: boolean) => void;
 }
 
-const SignInForm = ({ isSignIn }: LoginCardProps) => {
+const SignInForm = ({ isSignIn, isLoginSuccess }: LoginCardProps) => {
+  const { setUserToken } = useUser();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleDisable = () => {
+    if (username.length === 0 || password.length === 0) {
+      return true;
+    }
+    return false;
+  };
+  const handleLogin = async () => {
+    // Handle login logic here
+    console.log("Login clicked");
+    await login(username, password);
+    const token = await getCookie();
+    console.log("User token: ", token);
+    if (token !== "") {
+      console.log("Login successful");
+      // Redirect to home page or do something else
+      isLoginSuccess(true);
+    }
+  };
   return (
     <div className="w-96 flex flex-col justify-center px-6 lg:px-8 bg-transparent border-1 backdrop-blur-sm rounded-lg shadow-md">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -12,7 +39,15 @@ const SignInForm = ({ isSignIn }: LoginCardProps) => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-8" action="#" method="POST">
+        <form
+          className="space-y-8"
+          action="#"
+          method="POST"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await handleLogin();
+          }}
+        >
           <div>
             <label
               htmlFor="email"
@@ -28,6 +63,7 @@ const SignInForm = ({ isSignIn }: LoginCardProps) => {
                 id="email"
                 autoComplete="email"
                 required
+                onChange={(e) => setUsername(e.target.value)}
                 className="block w-full rounded-lg bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
@@ -58,6 +94,7 @@ const SignInForm = ({ isSignIn }: LoginCardProps) => {
                 id="password"
                 autoComplete="current-password"
                 required
+                onChange={(e) => setPassword(e.target.value)}
                 className="block w-full rounded-lg bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
@@ -66,7 +103,9 @@ const SignInForm = ({ isSignIn }: LoginCardProps) => {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className={`flex w-full justify-center rounded-md ${
+                handleDisable() ? "bg-indigo-500" : "bg-indigo-600"
+              } px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
             >
               Sign in
             </button>

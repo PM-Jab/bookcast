@@ -41,81 +41,6 @@ const bookRecommeds: BookRecommend[] = [
   },
 ];
 
-const newBooks: Book[] = [
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 1",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 2",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 3",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 4",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 5",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 6",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 7",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 8",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 9",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 10",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 11",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 12",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 13",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 14",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 15",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 16",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 17",
-  },
-  {
-    imageUrl: "/psychology-money-cover.png",
-    title: "Book 18",
-  },
-];
-
 const mockBook = (amount: number) => {
   const books: Book[] = [];
   for (let i = 0; i < amount; i++) {
@@ -137,10 +62,6 @@ export default function Landing() {
         <BookCarousel bookRecommeds={bookRecommeds} />
       </div>
       <section>
-        {/* <div>Best sellers</div>
-        <div className="flex items-center justify-center">
-          <div className="w-fit bg-amber-500 px-20 py-28">book</div>
-        </div> */}
         <NewRelease newReleases={mockBook(21)} />
       </section>
     </div>

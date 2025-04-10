@@ -1,4 +1,7 @@
+import { useUser } from "../../../../../context/userContext";
+
 const Navbar = () => {
+  const { userToken } = useUser();
   return (
     <nav className="w-full bg-gray-800 p-4 fixed top-0 left-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
@@ -12,7 +15,9 @@ const Navbar = () => {
           <a href="/library" className="text-gray-300 hover:text-white">
             Library
           </a>
-          <a className="text-gray-300 hover:text-white ml-20">Icon</a>
+          <a className="text-gray-300 hover:text-white ml-20">
+            {userToken ? userToken : "Icon"}
+          </a>
         </div>
       </div>
     </nav>
